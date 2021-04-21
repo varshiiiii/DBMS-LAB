@@ -1,0 +1,216 @@
+mysql> create database DBMSLAB;
+Query OK, 1 row affected (0.12 sec)
+
+mysql> use DBMSLAB;
+Database changed
+mysql> create table person(driver_id varchar(10),name varchar(20),address varchar(30),primary key(driver_id));
+Query OK, 0 rows affected (1.08 sec)
+
+mysql> desc person;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| driver_id | varchar(10) | NO   | PRI | NULL    |       |
+| name      | varchar(20) | YES  |     | NULL    |       |
+| address   | varchar(30) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.08 sec)
+
+mysql> create table car(reg_num varchar(10),model varchar(20),year int,primary key(reg_num));
+Query OK, 0 rows affected (1.40 sec)
+
+mysql> desc car;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| reg_num | varchar(10) | NO   | PRI | NULL    |       |
+| model   | varchar(20) | YES  |     | NULL    |       |
+| year    | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+mysql> create table accident(report_num  int,accident_date date,location varchar(20),primary key(report_num));
+Query OK, 0 rows affected (0.44 sec)
+
+mysql> desc accident;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| report_num    | int         | NO   | PRI | NULL    |       |
+| accident_date | date        | YES  |     | NULL    |       |
+| location      | varchar(20) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+3 rows in set (0.12 sec)
+
+
+mqsql>create table owns(driver_id varchar(10),reg_num varchar(10),primary key(driver_id,reg_num),foreign key(driver_id) referencesperson(driver_id),foreign key(reg_num) references car(reg_num));
+
+mysql> desc owns;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| driver_id | varchar(10) | NO   | PRI | NULL    |       |
+| reg_num   | varchar(10) | NO   | PRI | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+2 rows in set (0.09 sec)
+
+
+mysql> create table participated(driver_id varchar(10),reg_num varchar(10),report_num int,damage_amount int,primary key(driver_id,reg_num,report_num),foreign key(driver_id) references person(driver_id),foreign key(reg_num) references car(reg_num),foreign key(report_num) references accident(report_num));
+Query OK, 0 rows affected (0.90 sec)
+
+mysql> desc participated;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| driver_id     | varchar(10) | NO   | PRI | NULL    |       |
+| reg_num       | varchar(10) | NO   | PRI | NULL    |       |
+| report_num    | int         | NO   | PRI | NULL    |       |
+| damage_amount | int         | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into person values('A01','YASH','BSK');
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into person values('A02','KIRAN','JPN');
+Query OK, 1 row affected (0.18 sec)
+
+mysql> insert into person values('A03','SATISH','BTM');
+Query OK, 1 row affected (0.17 sec)
+
+mysql> insert into person values('A04','SUMA','RBI');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into person values('A05','MADHU','JAYANAGAR');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> select * from person;
++-----------+--------+----------+
+| driver_id | name   | address  |
++-----------+--------+----------+
+| A01       | YASH   | BSK      |
+| A02       | KIRAN  | JPN      |
+| A03       | SATISH | BTM      |
+| A04       | SUMA   | RBI      |
+| A05       | MADHU  | JAYANAGAR|
++-----------+--------+----------+
+5 rows in set (0.00 sec)
+
+
+mysql> insert into car values('KA03MT8976','AUDI',2020);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into car values('KA03MT1294','INNOVA',2015);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into car values('KA05JE1294','SAFARI',2021);
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into car values('KA05YA8888','CRETA',2020);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into car values('KA05SH5555','FORTUNER',2019);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from car;
++------------+----------+------+
+| reg_num    | model    | year |
++------------+----------+------+
+| KA03MT1294 | INNOVA   | 2015 |
+| KA03MT8976 | AUDI     | 2020 |
+| KA05JE1294 | SAFARI   | 2021 |
+| KA05SH5555 | FORTUNER | 2019 |
+| KA05YA8888 | CRETA    | 2020 |
++------------+----------+------+
+5 rows in set (0.00 sec)
+
+mysql> insert into accident values(104,'29-02-20','BSK');
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into accident values(108,'13-04-20','JPN');
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into accident values(256,'01-10-20','BTM');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into accident values(420,'01-01-21','KANAKAPURA ROAD');
+Query OK, 1 row affected (0.19 sec)
+
+mysql> insert into accident values(840,'31-12-20','MYSORE ROAD');
+Query OK, 1 row affected (0.14 sec)
+
+mysql> select * from accident;
++------------+---------------+-----------------+
+| report_num | accident_date | location        |
++------------+---------------+-----------------+
+|        104 | 2029-02-20    | BSK             |
+|        108 | 2013-04-20    | JPN             |
+|        256 | 2001-10-20    | BTM             |
+|        420 | 2001-01-21    | KANAKAPURA ROAD |
+|        840 | 2031-12-20    | MYSORE ROAD     |
++------------+---------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into owns values('A01','KA03MT8976');
+Query OK, 1 row affected (0.21 sec)
+
+mysql> insert into owns values('A02','KA03MT1294');
+Query OK, 1 row affected (0.17 sec)
+
+mysql> insert into owns values('A03','KA05YA8888');
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into owns values('A04','KA05SH5555');
+Query OK, 1 row affected (0.26 sec)
+
+mysql> insert into owns values('A05','KA05JE1294');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from owns;
++-----------+------------+
+| driver_id | reg_num    |
++-----------+------------+
+| A02       | KA03MT1294 |
+| A01       | KA03MT8976 |
+| A05       | KA05JE1294 |
+| A04       | KA05SH5555 |
+| A03       | KA05YA8888 |
++-----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into participated values('A01','KA03MT8976',420,15000);
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into participated values('A02','KA03MT1294',840,9700);
+Query OK, 1 row affected (0.19 sec)
+
+mysql> insert into participated values('A03','KA05JE1294',108,5000);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into participated values('A04','KA05YA8888',104,2750);
+Query OK, 1 row affected (0.17 sec)
+
+mysql> insert into participated values('A05','KA05SH5555',108,3450);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from participated;
++-----------+------------+------------+---------------+
+| driver_id | reg_num    | report_num | damage_amount |
++-----------+------------+------------+---------------+
+| A01       | KA03MT8976 |        420 |         15000 |
+| A02       | KA03MT1294 |        840 |          9700 |
+| A03       | KA05JE1294 |        256 |          5000 |
+| A04       | KA05YA8888 |        104 |          2750 |
+| A05       | KA05SH5555 |        108 |          3450 |
++-----------+------------+------------+---------------+
+5 rows in set (0.00 sec)
